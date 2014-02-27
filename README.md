@@ -5,12 +5,12 @@ UIVIew convenience category for frame and borders
 
 ### CocoaPods
 ```
-pod 'UIView-AF-Additions', :git => 'https://github.com/melvitax/UIView-AF-Additions.git'
+pod 'UIView-AF-Additions', :git => 'https://github.com/melvitax/UIViewAFAdditions.git'
 ```
 
 ### Header
 ```
-#import "UIView-AF-Additions.h"
+#import "UIView+AF+Additions.h"
 ```
 
 ### Position
