@@ -1,5 +1,5 @@
 #import <QuartzCore/QuartzCore.h>
-#import "UIView-AF-Additions.h"
+#import "UIView+AF+Additions.h"
 
 @implementation UIView (AFAdditions)
 

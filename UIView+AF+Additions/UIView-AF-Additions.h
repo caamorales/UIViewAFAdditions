@@ -1,5 +1,5 @@
 //
-//  UIView-AF-Additions
+//  UIView+AF+Additions
 //  Created by Melvin Rivera
 //
 
