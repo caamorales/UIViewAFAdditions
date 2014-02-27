@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'UIView+AF+Additions'
-  s.version  = '1.0'
+  s.version  = '1.01'
   s.platform = :ios
   s.license  = 'MIT'
   s.summary  = 'Convenience category for frame and border attributes.'
