@@ -7,6 +7,7 @@
 
 @interface UIView (AFAdditions)
 
+
 #pragma mark - Position
 
 @property(nonatomic) CGFloat left;
@@ -18,11 +19,13 @@
 
 @property(nonatomic) CGFloat centerX;
 @property(nonatomic) CGFloat centerY;
-@property(readonly) CGPoint centerXWithSuperview;
-@property(readonly) CGPoint centerYWithSuperview;
-- (CGPoint) offsetCenterX:(CGFloat)xOffset;
-- (CGPoint) offsetCenterY:(CGFloat)yOffset;
-- (CGPoint) offsetCenterX:(CGFloat)xOffset centerY:(CGFloat)yOffset;
+
+- (void) centerInSuperview;
+- (void) centerXInSuperview;
+- (void) centerYInSuperview;
+- (void) offsetCenterX:(CGFloat)xOffset;
+- (void) offsetCenterY:(CGFloat)yOffset;
+- (void) offsetCenterX:(CGFloat)xOffset centerY:(CGFloat)yOffset;
 
 #pragma mark - Size
 
@@ -36,9 +39,13 @@
 @property(nonatomic) UIColor *borderColor;
 @property(nonatomic) CGFloat borderWidth;
 @property(nonatomic) CGFloat cornerRadius;
+
 - (void) setCornerRadius:(CGFloat)cornerRadius color:(UIColor *)borderColor width:(CGFloat)borderWidth;
 - (void) setCornerRadiusAsCircle;
 - (void) setBorderColor:(UIColor *)borderColor width:(CGFloat)borderWidth;
+- (void) setLineDashPattern:(NSArray *)lineDashPattern width:(CGFloat)borderWidth color:(UIColor *)borderColor cornerRadius:(CGFloat)cornerRadius;
+- (void) setLineDashPattern:(NSArray *)lineDashPattern width:(CGFloat)borderWidth color:(UIColor *)borderColor;
+
 
 #pragma mark - Shadow
 
@@ -46,7 +53,9 @@
 @property(nonatomic) CGSize shadowOffset;
 @property(nonatomic) CGFloat shadowOpacity;
 @property(nonatomic) CGFloat shadowRadius;
+
 - (void) setShadowColor:(UIColor *)shadowColor offset:(CGSize)shadowOffset opacity:(CGFloat)shadowOpacity radius:(CGFloat)shadowRadius;
+- (void) setMaskedShadowColor:(UIColor *)shadowColor offset:(CGSize)shadowOffset opacity:(CGFloat)shadowOpacity radius:(CGFloat)shadowRadius;
 
 #pragma mark - Autolayout
 

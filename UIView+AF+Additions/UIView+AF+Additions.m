@@ -75,28 +75,35 @@
     self.center = CGPointMake(self.center.x, centerY);
 }
 
-- (CGPoint) centerXWithSuperview
+- (void) centerInSuperview
 {
-    return CGPointMake(self.superview.center.x, self.center.y);
-}
-- (CGPoint) centerYWithSuperview
-{
-    return CGPointMake(self.center.x, self.superview.center.y);
+    self.center = CGPointMake(self.superview.frame.size.width/2, self.superview.frame.size.height/2);
 }
 
-- (CGPoint) offsetCenterX:(CGFloat)xOffset
+- (void) centerXInSuperview
 {
-    return CGPointMake(self.center.x + (xOffset), self.center.y);
+    self.center = CGPointMake(self.superview.frame.size.width/2, self.center.y);
 }
 
-- (CGPoint) offsetCenterY:(CGFloat)yOffset
+- (void) centerYInSuperview
 {
-    return CGPointMake(self.center.x, self.center.y + (yOffset));
+    self.center = CGPointMake(self.center.x, self.superview.frame.size.height/2);
 }
 
-- (CGPoint) offsetCenterX:(CGFloat)xOffset centerY:(CGFloat)yOffset
+
+- (void) offsetCenterX:(CGFloat)xOffset
 {
-    return CGPointMake(self.center.x + (xOffset), self.center.y + (yOffset));
+    self.center = CGPointMake(self.center.x + (xOffset), self.center.y);
+}
+
+- (void) offsetCenterY:(CGFloat)yOffset
+{
+    self.center = CGPointMake(self.center.x, self.center.y + (yOffset));
+}
+
+- (void) offsetCenterX:(CGFloat)xOffset centerY:(CGFloat)yOffset
+{
+    self.center = CGPointMake(self.center.x + (xOffset), self.center.y + (yOffset));
 }
 
 #pragma mark - Size
@@ -199,6 +206,30 @@
     self.layer.borderWidth = borderWidth;
 }
 
+- (void) setLineDashPattern:(NSArray *)lineDashPattern width:(CGFloat)borderWidth color:(UIColor *)borderColor cornerRadius:(CGFloat)cornerRadius
+{
+    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+    strokeLayer.strokeColor = borderColor.CGColor;
+    strokeLayer.fillColor = nil;
+    strokeLayer.lineWidth = borderWidth;
+    strokeLayer.lineDashPattern = lineDashPattern;
+    strokeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:cornerRadius] CGPath];
+    strokeLayer.frame = self.bounds;
+    [self.layer addSublayer:strokeLayer];
+}
+
+- (void) setLineDashPattern:(NSArray *)lineDashPattern width:(CGFloat)borderWidth color:(UIColor *)borderColor
+{
+    CAShapeLayer *strokeLayer = [CAShapeLayer layer];
+    strokeLayer.strokeColor = borderColor.CGColor;
+    strokeLayer.fillColor = nil;
+    strokeLayer.lineWidth = borderWidth;
+    strokeLayer.lineDashPattern = lineDashPattern;
+    strokeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:self.cornerRadius] CGPath];
+    strokeLayer.frame = self.bounds;
+    [self.layer addSublayer:strokeLayer];
+}
+
 
 #pragma mark - Shadow
 
@@ -248,6 +279,21 @@
     self.layer.shadowOffset = shadowOffset;
     self.layer.shadowOpacity = shadowOpacity;
     self.layer.shadowRadius = shadowRadius;
+}
+
+- (void) setMaskedShadowColor:(UIColor *)shadowColor offset:(CGSize)shadowOffset opacity:(CGFloat)shadowOpacity radius:(CGFloat)shadowRadius
+{
+    [self setShadowColor:shadowColor offset:shadowOffset opacity:shadowOpacity radius:shadowRadius];
+    
+    self.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:self.cornerRadius] CGPath];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, nil, CGRectInset(self.bounds, -10, -10));
+    CGPathAddPath(path, nil, [[UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:self.cornerRadius] CGPath]);
+    [maskLayer setPath:path];
+    maskLayer.fillRule = kCAFillRuleEvenOdd;
+    CGPathRelease(path);
+    self.layer.mask = maskLayer;
 }
 
 #pragma mark - AutoLayout fix for animating
